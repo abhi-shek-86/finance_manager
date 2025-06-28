@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, flash, request, jsonify
+from flask import Flask, redirect, url_for, request, jsonify
 from config import Config
 from extensions import db, login_manager
 from models.user import User
@@ -53,7 +53,7 @@ app = create_app()
 def unauthorized_callback():
     if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
         return jsonify({"error": "Login required"}), 401
-    flash("Please login first!", "login_required")
+    # Do NOT flash the message anymore
     return redirect(url_for("auth.login"))
 
 if __name__ == "__main__":
