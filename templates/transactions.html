@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Transactions{% endblock %}
+{% block content %}
+<div class="center-content">
+  <h2>Your Transactions</h2>
+  <h3>Add Transaction</h3>
+  <form method="POST" action="/transactions/add" class="card" style="margin-bottom:2rem;">
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" step="0.01" name="amount" id="amount" required>
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+      <input type="text" name="category" id="category" required>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select name="type" id="type" required>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input type="date" name="date" id="date" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" name="description" id="description">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Transaction</button>
+  </form>
+
+  <h3>Transaction List</h3>
+  <ul class="expense-list">
+    {% for t in transactions %}
+      <li class="expense-item">
+        <div class="expense-info">
+          <h4>{{ t.category }}</h4>
+          <span class="category">{{ t.type|capitalize }}</span>
+          <span class="expense-amount {{ 'income' if t.type == 'income' else 'expense' }}">
+            ₹{{ t.amount }}
+          </span>
+          <div>{{ t.date.strftime('%Y-%m-%d') }}</div>
+          <div>{{ t.description }}</div>
+        </div>
+        <div class="expense-actions">
+          <a href="/transactions/delete/{{ t.id }}" class="btn btn-danger btn-sm delete-link">Delete</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<script>
+  document.querySelectorAll('.delete-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      Swal.fire({
+        title: 'Delete Transaction?',
+        text: "This action cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = link.href;
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Export Data{% endblock %}
+{% block content %}
+<h2>Export Data</h2>
+<form method="get" action="/export/download">
+  <label for="format">Choose format:</label>
+  <select name="format" id="format">
+    <option value="csv">Excel (CSV)</option>
+    <option value="pdf">PDF</option>
+  </select>
+  <button type="submit">Export</button>
+</form>
+{% endblock %}

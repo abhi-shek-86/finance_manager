@@ -1,0 +1,8 @@
+Flask>=2.3
+Flask-Login
+Flask-SQLAlchemy
+pymysql
+python-dotenv
+pandas
+weasyprint
+Werkzeug
